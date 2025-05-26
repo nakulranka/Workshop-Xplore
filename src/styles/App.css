@@ -1,8 +1,8 @@
 body {
   margin: 0;
   font-family: Arial, sans-serif;
-  background-color: #121217;
-  color: #e0e0e0;
+  background-color: #000;
+  color: #fff;
   line-height: 1.6;
 }
 
@@ -19,7 +19,7 @@ h1, h2, h3 {
 
 button {
   background-color: #3a6df0;
-  color: #e0e0e0;
+  color: #fff;
   border: none;
   padding: 12px 24px;
   cursor: pointer;
@@ -45,7 +45,8 @@ input, textarea {
 section {
   margin: 40px 0;
   padding: 20px;
-  background-color: #1a1a2e;
+  background-color: #121217;
+  color: #fff;
   border-radius: 15px;
   box-shadow: 0 0 20px #3a6df0;
 }

@@ -18,6 +18,9 @@ function App() {
         </Route>
         <Route path="/admin" element={<AdminDashboard />} />
       </Routes>
+      <footer style={{ textAlign: 'center', marginTop: '20px', color: '#e0e0e0' }}>
+        Made by Nakul Ranka with ❤️
+      </footer>
     </Router>
   );
 }

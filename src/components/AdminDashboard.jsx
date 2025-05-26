@@ -7,6 +7,7 @@ import '../styles/AdminDashboard.css';
 
 function AdminDashboard() {
   const [isAdmin, setIsAdmin] = useState(false);
+  const [activeTab, setActiveTab] = useState('team');
 
   // Workshop state
   const [title, setTitle] = useState('');
@@ -362,232 +363,239 @@ function AdminDashboard() {
   return (
     <div className="admin-dashboard">
       <h2>Admin Dashboard</h2>
+      <nav className="dashboard-nav">
+        <button className={activeTab === 'team' ? 'active' : ''} onClick={() => setActiveTab('team')}>Team</button>
+        <button className={activeTab === 'workshops' ? 'active' : ''} onClick={() => setActiveTab('workshops')}>Workshops</button>
+        <button className={activeTab === 'speakers' ? 'active' : ''} onClick={() => setActiveTab('speakers')}>Speakers</button>
+      </nav>
 
-      {/* Workshop Management */}
-      <div className="admin-section">
-        <h3>Manage Workshops</h3>
-        <form onSubmit={handleSubmitWorkshop}>
-          <h4>{editingWorkshop ? 'Edit Workshop' : 'Add Workshop'}</h4>
-          <input
-            type="text"
-            placeholder="Workshop Title"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            required
-          />
-          <textarea
-            placeholder="Prerequisites"
-            value={prerequisites}
-            onChange={(e) => setPrerequisites(e.target.value)}
-          />
-          <input
-            type="url"
-            placeholder="Resource Link (e.g., https://example.com)"
-            value={resourceLink}
-            onChange={(e) => setResourceLink(e.target.value)}
-          />
-          <input
-            type="file"
-            accept="image/*"
-            onChange={(e) => setThumbnail(e.target.files[0])}
-          />
-          <p style={{ fontSize: '12px', color: '#e0e0e0' }}>
-            Thumbnail max size: 500 KB (Image only)
-          </p>
-          <h5>Speakers</h5>
-          {speakers.map((speaker, index) => (
-            <div key={index} className="speaker-input">
-              <input
-                type="text"
-                placeholder="Speaker Name"
-                value={speaker}
-                onChange={(e) => handleSpeakerChange(index, e.target.value)}
-                required
-              />
-              {speakers.length > 1 && (
-                <button type="button" onClick={() => handleRemoveSpeaker(index)}>
-                  Remove
+      {activeTab === 'team' && (
+        <div className="team-section">
+          <h3>Manage Team</h3>
+          <form onSubmit={handleSubmitTeam}>
+            <h4>{editingTeamMember ? 'Edit Team Member' : 'Add Team Member'}</h4>
+            <input
+              type="text"
+              placeholder="Name"
+              value={teamName}
+              onChange={(e) => setTeamName(e.target.value)}
+              required
+            />
+            <input
+              type="url"
+              placeholder="LinkedIn URL (optional)"
+              value={teamLinkedIn}
+              onChange={(e) => setTeamLinkedIn(e.target.value)}
+            />
+            <input
+              type="text"
+              placeholder="Position"
+              value={teamPosition}
+              onChange={(e) => setTeamPosition(e.target.value)}
+              required
+            />
+            <input
+              type="file"
+              accept="image/*"
+              onChange={(e) => setTeamPicture(e.target.files[0])}
+            />
+            <p style={{ fontSize: '12px', color: '#e0e0e0' }}>
+              Picture max size: 500 KB (Image only)
+            </p>
+            {error && <p className="error">{error}</p>}
+            <div className="form-buttons">
+              <button type="submit">{editingTeamMember ? 'Update Team Member' : 'Add Team Member'}</button>
+              {editingTeamMember && (
+                <button type="button" onClick={resetTeamForm}>
+                  Cancel
                 </button>
               )}
             </div>
-          ))}
-          <button type="button" onClick={handleAddSpeaker}>
-            Add Speaker
-          </button>
-          <h5>Sessions</h5>
-          {sessions.map((session, index) => (
-            <div key={index} className="session-input">
-              <input
-                type="date"
-                value={session.date}
-                onChange={(e) => handleSessionChange(index, 'date', e.target.value)}
-                required
-              />
-              <input
-                type="time"
-                value={session.time}
-                onChange={(e) => handleSessionChange(index, 'time', e.target.value)}
-                required
-              />
-              <input
-                type="url"
-                placeholder="Microsoft Teams Link (optional until 1 hr before)"
-                value={session.teamsLink}
-                onChange={(e) => handleSessionChange(index, 'teamsLink', e.target.value)}
-              />
-              <input
-                type="url"
-                placeholder="YouTube Playlist Link (optional, add after session)"
-                value={session.youtubePlaylistLink}
-                onChange={(e) => handleSessionChange(index, 'youtubePlaylistLink', e.target.value)}
-              />
-              {sessions.length > 1 && (
-                <button type="button" onClick={() => handleRemoveSession(index)}>
-                  Remove
+          </form>
+          <h4>Team Members</h4>
+          <div className="team-list">
+            {teamMembers.map(member => (
+              <div key={member.id} className="team-item">
+                <p>{member.name} - {member.position}</p>
+                <div>
+                  <button onClick={() => handleEditTeamMember(member)}>Edit</button>
+                  <button onClick={() => handleDeleteTeamMember(member.id)}>Delete</button>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+      {activeTab === 'workshops' && (
+        <div className="workshops-section">
+          <h3>Manage Workshops</h3>
+          <form onSubmit={handleSubmitWorkshop}>
+            <h4>{editingWorkshop ? 'Edit Workshop' : 'Add Workshop'}</h4>
+            <input
+              type="text"
+              placeholder="Workshop Title"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              required
+            />
+            <textarea
+              placeholder="Prerequisites"
+              value={prerequisites}
+              onChange={(e) => setPrerequisites(e.target.value)}
+            />
+            <input
+              type="url"
+              placeholder="Resource Link (e.g., https://example.com)"
+              value={resourceLink}
+              onChange={(e) => setResourceLink(e.target.value)}
+            />
+            <input
+              type="file"
+              accept="image/*"
+              onChange={(e) => setThumbnail(e.target.files[0])}
+            />
+            <p style={{ fontSize: '12px', color: '#e0e0e0' }}>
+              Thumbnail max size: 500 KB (Image only)
+            </p>
+            <h5>Speakers</h5>
+            {speakers.map((speaker, index) => (
+              <div key={index} className="speaker-input">
+                <input
+                  type="text"
+                  placeholder="Speaker Name"
+                  value={speaker}
+                  onChange={(e) => handleSpeakerChange(index, e.target.value)}
+                  required
+                />
+                {speakers.length > 1 && (
+                  <button type="button" onClick={() => handleRemoveSpeaker(index)}>
+                    Remove
+                  </button>
+                )}
+              </div>
+            ))}
+            <button type="button" onClick={handleAddSpeaker}>
+              Add Speaker
+            </button>
+            <h5>Sessions</h5>
+            {sessions.map((session, index) => (
+              <div key={index} className="session-input">
+                <input
+                  type="date"
+                  value={session.date}
+                  onChange={(e) => handleSessionChange(index, 'date', e.target.value)}
+                  required
+                />
+                <input
+                  type="time"
+                  value={session.time}
+                  onChange={(e) => handleSessionChange(index, 'time', e.target.value)}
+                  required
+                />
+                <input
+                  type="url"
+                  placeholder="Microsoft Teams Link (optional until 1 hr before)"
+                  value={session.teamsLink}
+                  onChange={(e) => handleSessionChange(index, 'teamsLink', e.target.value)}
+                />
+                <input
+                  type="url"
+                  placeholder="YouTube Playlist Link (optional, add after session)"
+                  value={session.youtubePlaylistLink}
+                  onChange={(e) => handleSessionChange(index, 'youtubePlaylistLink', e.target.value)}
+                />
+                {sessions.length > 1 && (
+                  <button type="button" onClick={() => handleRemoveSession(index)}>
+                    Remove
+                  </button>
+                )}
+              </div>
+            ))}
+            <button type="button" onClick={handleAddSession}>
+              Add Session
+            </button>
+            {error && <p className="error">{error}</p>}
+            <div className="form-buttons">
+              <button type="submit">{editingWorkshop ? 'Update Workshop' : 'Add Workshop'}</button>
+              {editingWorkshop && (
+                <button type="button" onClick={resetWorkshopForm}>
+                  Cancel
                 </button>
               )}
             </div>
-          ))}
-          <button type="button" onClick={handleAddSession}>
-            Add Session
-          </button>
-          {error && <p className="error">{error}</p>}
-          <div className="form-buttons">
-            <button type="submit">{editingWorkshop ? 'Update Workshop' : 'Add Workshop'}</button>
-            {editingWorkshop && (
-              <button type="button" onClick={resetWorkshopForm}>
-                Cancel
-              </button>
-            )}
-          </div>
-        </form>
-        <h4>Workshops</h4>
-        <div className="workshop-list">
-          {workshops.map(workshop => (
-            <div key={workshop.id} className="workshop-item">
-              <p>{workshop.title}</p>
-              <div>
-                <button onClick={() => handleEditWorkshop(workshop)}>Edit</button>
-                <button onClick={() => handleDeleteWorkshop(workshop.id)}>Delete</button>
+          </form>
+          <h4>Workshops</h4>
+          <div className="workshop-list">
+            {workshops.map(workshop => (
+              <div key={workshop.id} className="workshop-item">
+                <p>{workshop.title}</p>
+                <div>
+                  <button onClick={() => handleEditWorkshop(workshop)}>Edit</button>
+                  <button onClick={() => handleDeleteWorkshop(workshop.id)}>Delete</button>
+                </div>
               </div>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* Team Management */}
-      <div className="admin-section">
-        <h3>Manage Team Members</h3>
-        <form onSubmit={handleSubmitTeam}>
-          <h4>{editingTeamMember ? 'Edit Team Member' : 'Add Team Member'}</h4>
-          <input
-            type="text"
-            placeholder="Name"
-            value={teamName}
-            onChange={(e) => setTeamName(e.target.value)}
-            required
-          />
-          <input
-            type="url"
-            placeholder="LinkedIn URL (optional)"
-            value={teamLinkedIn}
-            onChange={(e) => setTeamLinkedIn(e.target.value)}
-          />
-          <input
-            type="text"
-            placeholder="Position"
-            value={teamPosition}
-            onChange={(e) => setTeamPosition(e.target.value)}
-            required
-          />
-          <input
-            type="file"
-            accept="image/*"
-            onChange={(e) => setTeamPicture(e.target.files[0])}
-          />
-          <p style={{ fontSize: '12px', color: '#e0e0e0' }}>
-            Picture max size: 500 KB (Image only)
-          </p>
-          {error && <p className="error">{error}</p>}
-          <div className="form-buttons">
-            <button type="submit">{editingTeamMember ? 'Update Team Member' : 'Add Team Member'}</button>
-            {editingTeamMember && (
-              <button type="button" onClick={resetTeamForm}>
-                Cancel
-              </button>
-            )}
+            ))}
           </div>
-        </form>
-        <h4>Team Members</h4>
-        <div className="team-list">
-          {teamMembers.map(member => (
-            <div key={member.id} className="team-item">
-              <p>{member.name} - {member.position}</p>
-              <div>
-                <button onClick={() => handleEditTeamMember(member)}>Edit</button>
-                <button onClick={() => handleDeleteTeamMember(member.id)}>Delete</button>
-              </div>
-            </div>
-          ))}
         </div>
-      </div>
-
-      {/* Speaker Management */}
-      <div className="admin-section">
-        <h3>Manage Speakers</h3>
-        <form onSubmit={handleSubmitSpeaker}>
-          <h4>{editingSpeaker ? 'Edit Speaker' : 'Add Speaker'}</h4>
-          <input
-            type="text"
-            placeholder="Name"
-            value={speakerName}
-            onChange={(e) => setSpeakerName(e.target.value)}
-            required
-          />
-          <input
-            type="url"
-            placeholder="LinkedIn URL (optional)"
-            value={speakerLinkedIn}
-            onChange={(e) => setSpeakerLinkedIn(e.target.value)}
-          />
-          <input
-            type="text"
-            placeholder="Position"
-            value={speakerPosition}
-            onChange={(e) => setSpeakerPosition(e.target.value)}
-            required
-          />
-          <input
-            type="file"
-            accept="image/*"
-            onChange={(e) => setSpeakerPicture(e.target.files[0])}
-          />
-          <p style={{ fontSize: '12px', color: '#e0e0e0' }}>
-            Picture max size: 500 KB (Image only)
-          </p>
-          {error && <p className="error">{error}</p>}
-          <div className="form-buttons">
-            <button type="submit">{editingSpeaker ? 'Update Speaker' : 'Add Speaker'}</button>
-            {editingSpeaker && (
-              <button type="button" onClick={resetSpeakerForm}>
-                Cancel
-              </button>
-            )}
+      )}
+      {activeTab === 'speakers' && (
+        <div className="speakers-section">
+          <h3>Manage Speakers</h3>
+          <form onSubmit={handleSubmitSpeaker}>
+            <h4>{editingSpeaker ? 'Edit Speaker' : 'Add Speaker'}</h4>
+            <input
+              type="text"
+              placeholder="Name"
+              value={speakerName}
+              onChange={(e) => setSpeakerName(e.target.value)}
+              required
+            />
+            <input
+              type="url"
+              placeholder="LinkedIn URL (optional)"
+              value={speakerLinkedIn}
+              onChange={(e) => setSpeakerLinkedIn(e.target.value)}
+            />
+            <input
+              type="text"
+              placeholder="Position"
+              value={speakerPosition}
+              onChange={(e) => setSpeakerPosition(e.target.value)}
+              required
+            />
+            <input
+              type="file"
+              accept="image/*"
+              onChange={(e) => setSpeakerPicture(e.target.files[0])}
+            />
+            <p style={{ fontSize: '12px', color: '#e0e0e0' }}>
+              Picture max size: 500 KB (Image only)
+            </p>
+            {error && <p className="error">{error}</p>}
+            <div className="form-buttons">
+              <button type="submit">{editingSpeaker ? 'Update Speaker' : 'Add Speaker'}</button>
+              {editingSpeaker && (
+                <button type="button" onClick={resetSpeakerForm}>
+                  Cancel
+                </button>
+              )}
+            </div>
+          </form>
+          <h4>Speakers</h4>
+          <div className="speaker-list">
+            {speakerList.map(speaker => (
+              <div key={speaker.id} className="speaker-item">
+                <p>{speaker.name} - {speaker.position}</p>
+                <div>
+                  <button onClick={() => handleEditSpeaker(speaker)}>Edit</button>
+                  <button onClick={() => handleDeleteSpeaker(speaker.id)}>Delete</button>
+                </div>
+              </div>
+            ))}
           </div>
-        </form>
-        <h4>Speakers</h4>
-        <div className="speaker-list">
-          {speakerList.map(speaker => (
-            <div key={speaker.id} className="speaker-item">
-              <p>{speaker.name} - {speaker.position}</p>
-              <div>
-                <button onClick={() => handleEditSpeaker(speaker)}>Edit</button>
-                <button onClick={() => handleDeleteSpeaker(speaker.id)}>Delete</button>
-              </div>
-            </div>
-          ))}
         </div>
-      </div>
+      )}
+      
     </div>
   );
 }
