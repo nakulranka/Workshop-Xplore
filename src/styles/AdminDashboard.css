@@ -1,0 +1,90 @@
+.admin-dashboard {
+  max-width: 800px;
+  margin: 50px auto;
+  padding: 20px;
+}
+
+.admin-section {
+  margin-bottom: 40px;
+}
+
+.admin-dashboard form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-bottom: 30px;
+}
+
+.session-input {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+}
+
+.session-input input {
+  flex: 1;
+  min-width: 150px;
+}
+
+.session-input button {
+  background-color: #ff5555;
+}
+
+.session-input button:hover {
+  background-color: #ff7777;
+}
+
+.speaker-input {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.speaker-input input {
+  flex: 1;
+}
+
+.speaker-input button {
+  background-color: #ff5555;
+}
+
+.speaker-input button:hover {
+  background-color: #ff7777;
+}
+
+.workshop-list, .team-list, .speaker-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.workshop-item, .team-item, .speaker-item {
+  background-color: #2a2a4e;
+  padding: 10px;
+  border-radius: 5px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.workshop-item button, .team-item button, .speaker-item button {
+  margin-left: 10px;
+}
+
+.form-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.form-buttons button:nth-child(2) {
+  background-color: #666;
+}
+
+.form-buttons button:nth-child(2):hover {
+  background-color: #888;
+}
+
+.error {
+  color: #ff5555;
+}

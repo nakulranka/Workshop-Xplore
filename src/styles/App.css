@@ -1,0 +1,63 @@
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: #121217;
+  color: #e0e0e0;
+  line-height: 1.6;
+}
+
+.app {
+  min-height: 100vh;
+  background-color: #121217;
+  padding: 0 20px 40px;
+}
+
+h1, h2, h3 {
+  color: #3a6df0;
+  font-weight: 700;
+}
+
+button {
+  background-color: #3a6df0;
+  color: #e0e0e0;
+  border: none;
+  padding: 12px 24px;
+  cursor: pointer;
+  border-radius: 8px;
+  font-weight: 600;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #5a8df5;
+}
+
+input, textarea {
+  background-color: #1e1e2f;
+  color: #e0e0e0;
+  border: 1px solid #3a6df0;
+  padding: 10px;
+  border-radius: 8px;
+  font-size: 1rem;
+}
+
+/* Section styles */
+section {
+  margin: 40px 0;
+  padding: 20px;
+  background-color: #1a1a2e;
+  border-radius: 15px;
+  box-shadow: 0 0 20px #3a6df0;
+}
+
+/* Responsive layout */
+@media (max-width: 768px) {
+  .app {
+    padding: 0 10px 30px;
+  }
+
+  button {
+    width: 100%;
+    padding: 14px 0;
+  }
+}

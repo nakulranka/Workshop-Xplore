@@ -1,0 +1,102 @@
+.student-dashboard {
+  max-width: 1200px;
+  margin: 50px auto;
+  padding: 20px;
+}
+
+.dashboard-nav {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.dashboard-nav button {
+  padding: 10px 20px;
+  background-color: #2a2a4e;
+  border: none;
+  border-radius: 5px;
+  color: #e0e0e0;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.dashboard-nav button:hover {
+  background-color: #4b5e8e;
+}
+
+.dashboard-nav button.active {
+  background-color: #4b5e8e;
+  font-weight: bold;
+}
+
+.past-workshops-section,
+.all-workshops-section,
+.calendar-section {
+  margin-bottom: 40px;
+}
+
+.workshops-list {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1024px) {
+  .workshops-list {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .workshops-list {
+    grid-template-columns: 1fr;
+  }
+}
+
+.workshop-summary {
+  background-color: #2a2a4e;
+  padding: 15px;
+  border-radius: 5px;
+}
+
+.workshop-thumbnail-small {
+  width: 100%;
+  max-width: 200px;
+  height: auto;
+  border-radius: 5px;
+  margin: 10px 0;
+}
+
+.workshop-summary ul {
+  padding-left: 20px;
+}
+
+.dashboard-content {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.calendar-container {
+  flex: 1;
+  min-width: 300px;
+}
+
+.workshops-container {
+  flex: 2;
+  min-width: 300px;
+}
+
+.workshops-container h4 {
+  margin-top: 0;
+}
+
+.workshop-indicator {
+  color: #4b5e8e;
+  margin: 0;
+}
+
+.error {
+  color: #ff5555;
+}
