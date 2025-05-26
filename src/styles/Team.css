@@ -1,28 +1,50 @@
-.speakers-page {
+.team-page {
   max-width: 1200px;
   margin: 50px auto;
   padding: 20px;
-  background-color: #0e0e14; /* Slightly darker for richer contrast */
+  background-color: #121217;
   color: #e0e0e0;
   border-radius: 15px;
   box-shadow: 0 0 20px rgba(58, 109, 240, 0.5);
   text-align: center;
+  max-height: 80vh;
+  overflow-y: auto;
 }
 
-.speakers-page h2 {
-  font-size: 2.5rem;
+.team-page::-webkit-scrollbar {
+  width: 8px;
+}
+
+.team-page::-webkit-scrollbar-track {
+  background: #1a1a2e;
+  border-radius: 4px;
+}
+
+.team-page::-webkit-scrollbar-thumb {
+  background: linear-gradient(45deg, #3a6df0, #5a8df5);
+  border-radius: 4px;
+  border: 1px solid #121217;
+}
+
+.team-page::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(45deg, #5a8df5, #7aa3f7);
+  box-shadow: 0 0 10px rgba(58, 109, 240, 0.5);
+}
+
+.team-page h2 {
+  font-size: 2.2rem;
   margin-bottom: 20px;
   color: #3a6df0;
 }
 
-.speakers-list {
+.team-list {
   display: grid;
-  grid-template-columns: repeat(4, 1fr); /* Four cards in one row */
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   gap: 20px;
 }
 
-.speaker-card {
-  background-color: #151524; /* Darker card background */
+.team-card {
+  background-color: #1a1a2e;
   padding: 20px;
   border-radius: 15px;
   text-align: center;
@@ -31,12 +53,12 @@
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.speaker-card:hover {
+.team-card:hover {
   transform: translateY(-8px);
-  box-shadow: 0 0 25px rgba(58, 109, 240, 0.7); /* Slightly toned-down hover glow */
+  box-shadow: 0 0 25px rgba(58, 109, 240, 0.8);
 }
 
-.speaker-picture {
+.team-picture {
   width: 100%;
   height: 150px;
   object-fit: cover;
@@ -44,41 +66,152 @@
   margin-bottom: 15px;
 }
 
-.speaker-card h3 {
+.team-card h3 {
   margin: 10px 0;
   font-size: 1.2rem;
   color: #3a6df0;
 }
 
-.speaker-card p {
+.team-card p {
   margin: 5px 0;
   font-size: 0.9rem;
+  line-height: 1.4;
 }
 
-.speaker-card a {
+.social-links {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  margin-top: 10px;
+  flex-wrap: wrap;
+}
+
+.social-links a {
   color: #3a6df0;
   text-decoration: none;
   font-weight: bold;
+  padding: 5px 10px;
+  border: 1px solid #3a6df0;
+  border-radius: 5px;
+  transition: all 0.3s ease;
+  font-size: 0.85rem;
 }
 
-.speaker-card a:hover {
-  color: #5a8df5;
-  text-decoration: underline;
+.social-links a:hover {
+  color: #fff;
+  background-color: #3a6df0;
 }
 
 .error {
   color: #ff5555;
   margin-bottom: 15px;
+  padding: 10px;
+  background-color: rgba(255, 85, 85, 0.1);
+  border-radius: 5px;
 }
 
-@media (max-width: 1024px) {
-  .speakers-list {
-    grid-template-columns: repeat(2, 1fr); /* Two cards per row */
+/* Tablet */
+@media (min-width: 768px) {
+  .team-page h2 {
+    font-size: 2.5rem;
+  }
+
+  .team-list {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   }
 }
 
-@media (max-width: 600px) {
-  .speakers-list {
-    grid-template-columns: 1fr; /* One card per row */
+/* Mobile */
+@media (max-width: 767px) {
+  .team-page {
+    margin: 20px auto;
+    padding: 15px;
+    max-height: 85vh;
+  }
+
+  .team-page h2 {
+    font-size: 1.8rem;
+    margin-bottom: 15px;
+  }
+
+  .team-list {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+
+  .team-card {
+    padding: 15px;
+  }
+
+  .team-picture {
+    height: 120px;
+    margin-bottom: 12px;
+  }
+
+  .team-card h3 {
+    font-size: 1.1rem;
+    margin: 8px 0;
+  }
+
+  .team-card p {
+    font-size: 0.85rem;
+    margin: 4px 0;
+  }
+
+  .social-links {
+    gap: 8px;
+    margin-top: 8px;
+  }
+
+  .social-links a {
+    padding: 4px 8px;
+    font-size: 0.8rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .team-page {
+    padding: 10px;
+  }
+
+  .team-page h2 {
+    font-size: 1.5rem;
+  }
+
+  .team-card {
+    padding: 12px;
+  }
+
+  .team-picture {
+    height: 100px;
+  }
+
+  .team-card h3 {
+    font-size: 1rem;
+  }
+
+  .team-card p {
+    font-size: 0.8rem;
+  }
+}
+
+/* Touch-friendly hover effects */
+@media (hover: none) {
+  .team-card:hover {
+    transform: none;
+  }
+
+  .team-card:active {
+    transform: scale(0.98);
+  }
+
+  .social-links a:hover {
+    color: #3a6df0;
+    background-color: transparent;
+  }
+
+  .social-links a:active {
+    color: #fff;
+    background-color: #3a6df0;
   }
 }

@@ -1,6 +1,6 @@
 .site-header {
   background-color: #121217;
-  padding: 20px 0;
+  padding: 15px 0;
   box-shadow: 0 0 15px #3a6df0;
   text-align: center;
   position: sticky;
@@ -11,32 +11,64 @@
 .header-content {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 0 20px;
+  padding: 0 15px;
 }
 
 .site-title {
   margin: 0;
-  font-size: 2.5rem;
+  font-size: 2rem;
   color: #3a6df0;
   font-weight: 900;
-  letter-spacing: 2px;
+  letter-spacing: 1px;
+  line-height: 1.2;
 }
 
 .site-tagline {
   margin: 5px 0 0;
-  font-size: 1.2rem;
+  font-size: 1rem;
   color: #7a8dbf;
   font-weight: 600;
   font-style: italic;
 }
 
-/* Responsive */
-@media (max-width: 600px) {
+/* Tablet */
+@media (min-width: 768px) {
+  .site-header {
+    padding: 20px 0;
+  }
+
   .site-title {
-    font-size: 1.8rem;
+    font-size: 2.5rem;
+    letter-spacing: 2px;
   }
 
   .site-tagline {
-    font-size: 1rem;
+    font-size: 1.2rem;
+  }
+}
+
+/* Mobile */
+@media (max-width: 600px) {
+  .site-header {
+    padding: 12px 0;
+  }
+
+  .site-title {
+    font-size: 1.6rem;
+    letter-spacing: 0.5px;
+  }
+
+  .site-tagline {
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .site-title {
+    font-size: 1.4rem;
+  }
+
+  .site-tagline {
+    font-size: 0.8rem;
   }
 }

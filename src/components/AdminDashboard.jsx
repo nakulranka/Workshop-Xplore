@@ -15,7 +15,7 @@ function AdminDashboard() {
   const [resourceLink, setResourceLink] = useState('');
   const [thumbnail, setThumbnail] = useState(null);
   const [speakers, setSpeakers] = useState(['']);
-  const [sessions, setSessions] = useState([{ date: '', time: '', teamsLink: '', youtubePlaylistLink: '' }]);
+  const [sessions, setSessions] = useState([{ date: '', time: '', youtubePlaylistLink: '' }]);
   const [workshops, setWorkshops] = useState([]);
   const [editingWorkshop, setEditingWorkshop] = useState(null);
 
@@ -106,7 +106,7 @@ function AdminDashboard() {
   };
 
   const handleAddSession = () => {
-    setSessions([...sessions, { date: '', time: '', teamsLink: '', youtubePlaylistLink: '' }]);
+    setSessions([...sessions, { date: '', time: '', youtubePlaylistLink: '' }]);
   };
 
   const handleSessionChange = (index, field, value) => {
@@ -187,9 +187,8 @@ function AdminDashboard() {
     setSessions(workshop.sessions && workshop.sessions.length > 0 ? workshop.sessions.map(session => ({
       date: session.date,
       time: session.time || '',
-      teamsLink: session.teamsLink || '',
       youtubePlaylistLink: session.youtubePlaylistLink || ''
-    })) : [{ date: '', time: '', teamsLink: '', youtubePlaylistLink: '' }]);
+    })) : [{ date: '', time: '', youtubePlaylistLink: '' }]);
   };
 
   const handleDeleteWorkshop = async (id) => {
@@ -207,7 +206,7 @@ function AdminDashboard() {
     setResourceLink('');
     setThumbnail(null);
     setSpeakers(['']);
-    setSessions([{ date: '', time: '', teamsLink: '', youtubePlaylistLink: '' }]);
+    setSessions([{ date: '', time: '', youtubePlaylistLink: '' }]);
     setEditingWorkshop(null);
     setError('');
   };
@@ -491,12 +490,6 @@ function AdminDashboard() {
                   value={session.time}
                   onChange={(e) => handleSessionChange(index, 'time', e.target.value)}
                   required
-                />
-                <input
-                  type="url"
-                  placeholder="Microsoft Teams Link (optional until 1 hr before)"
-                  value={session.teamsLink}
-                  onChange={(e) => handleSessionChange(index, 'teamsLink', e.target.value)}
                 />
                 <input
                   type="url"

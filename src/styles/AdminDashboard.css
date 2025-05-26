@@ -2,6 +2,58 @@
   max-width: 800px;
   margin: 50px auto;
   padding: 20px;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.admin-dashboard::-webkit-scrollbar {
+  width: 8px;
+}
+
+.admin-dashboard::-webkit-scrollbar-track {
+  background: #121217;
+  border-radius: 4px;
+}
+
+.admin-dashboard::-webkit-scrollbar-thumb {
+  background: linear-gradient(45deg, #3a6df0, #5a8df5);
+  border-radius: 4px;
+  border: 1px solid #1a1a2e;
+}
+
+.admin-dashboard::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(45deg, #5a8df5, #7aa3f7);
+  box-shadow: 0 0 10px rgba(58, 109, 240, 0.5);
+}
+
+.dashboard-nav {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 20px;
+  overflow-x: auto;
+  padding-bottom: 5px;
+}
+
+.dashboard-nav button {
+  padding: 10px 16px;
+  background-color: #2a2a4e;
+  border: none;
+  border-radius: 5px;
+  color: #e0e0e0;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  white-space: nowrap;
+  min-height: 44px;
+  font-size: 14px;
+}
+
+.dashboard-nav button:hover {
+  background-color: #4b5e8e;
+}
+
+.dashboard-nav button.active {
+  background-color: #4b5e8e;
+  font-weight: bold;
 }
 
 .admin-section {
@@ -15,6 +67,12 @@
   margin-bottom: 30px;
 }
 
+.admin-dashboard input,
+.admin-dashboard textarea {
+  width: 100%;
+  box-sizing: border-box;
+}
+
 .session-input {
   display: flex;
   flex-wrap: wrap;
@@ -24,11 +82,12 @@
 
 .session-input input {
   flex: 1;
-  min-width: 150px;
+  min-width: 120px;
 }
 
 .session-input button {
   background-color: #ff5555;
+  min-width: 80px;
 }
 
 .session-input button:hover {
@@ -47,6 +106,7 @@
 
 .speaker-input button {
   background-color: #ff5555;
+  min-width: 80px;
 }
 
 .speaker-input button:hover {
@@ -57,24 +117,75 @@
   display: flex;
   flex-direction: column;
   gap: 10px;
+  max-height: 400px;
+  overflow-y: auto;
+  padding-right: 5px;
+}
+
+.workshop-list::-webkit-scrollbar, 
+.team-list::-webkit-scrollbar, 
+.speaker-list::-webkit-scrollbar {
+  width: 6px;
+}
+
+.workshop-list::-webkit-scrollbar-track, 
+.team-list::-webkit-scrollbar-track, 
+.speaker-list::-webkit-scrollbar-track {
+  background: #1a1a2e;
+  border-radius: 3px;
+}
+
+.workshop-list::-webkit-scrollbar-thumb, 
+.team-list::-webkit-scrollbar-thumb, 
+.speaker-list::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #3a6df0, #5a8df5);
+  border-radius: 3px;
+}
+
+.workshop-list::-webkit-scrollbar-thumb:hover, 
+.team-list::-webkit-scrollbar-thumb:hover, 
+.speaker-list::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #5a8df5, #7aa3f7);
 }
 
 .workshop-item, .team-item, .speaker-item {
   background-color: #2a2a4e;
-  padding: 10px;
+  padding: 12px;
   border-radius: 5px;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.workshop-item p, .team-item p, .speaker-item p {
+  margin: 0;
+  flex: 1;
+  min-width: 150px;
+}
+
+.workshop-item div, .team-item div, .speaker-item div {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
 }
 
 .workshop-item button, .team-item button, .speaker-item button {
-  margin-left: 10px;
+  min-width: 60px;
+  padding: 6px 12px;
+  font-size: 12px;
 }
 
 .form-buttons {
   display: flex;
   gap: 10px;
+  flex-wrap: wrap;
+}
+
+.form-buttons button {
+  flex: 1;
+  min-width: 120px;
 }
 
 .form-buttons button:nth-child(2) {
@@ -87,4 +198,133 @@
 
 .error {
   color: #ff5555;
+  background-color: rgba(255, 85, 85, 0.1);
+  padding: 10px;
+  border-radius: 5px;
+  margin-bottom: 15px;
+  border-left: 4px solid #ff5555;
+}
+
+.success {
+  color: #28a745;
+  background-color: rgba(40, 167, 69, 0.1);
+  padding: 10px;
+  border-radius: 5px;
+  margin-bottom: 15px;
+  border-left: 4px solid #28a745;
+}
+
+/* Tablet */
+@media (min-width: 768px) {
+  .dashboard-nav button {
+    padding: 10px 20px;
+    font-size: 16px;
+  }
+
+  .workshop-item, .team-item, .speaker-item {
+    flex-wrap: nowrap;
+  }
+
+  .workshop-item button, .team-item button, .speaker-item button {
+    min-width: 70px;
+    font-size: 14px;
+    padding: 8px 12px;
+  }
+}
+
+/* Mobile */
+@media (max-width: 767px) {
+  .admin-dashboard {
+    margin: 20px auto;
+    padding: 15px;
+    max-height: 95vh;
+  }
+
+  .dashboard-nav {
+    gap: 5px;
+  }
+
+  .dashboard-nav button {
+    padding: 8px 12px;
+    font-size: 12px;
+    min-height: 40px;
+  }
+
+  .admin-dashboard form {
+    gap: 12px;
+  }
+
+  .session-input {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .session-input input {
+    min-width: auto;
+  }
+
+  .session-input button {
+    min-width: auto;
+    width: 100%;
+  }
+
+  .speaker-input {
+    flex-direction: column;
+  }
+
+  .speaker-input button {
+    min-width: auto;
+    width: 100%;
+  }
+
+  .workshop-list, .team-list, .speaker-list {
+    max-height: 300px;
+  }
+
+  .workshop-item, .team-item, .speaker-item {
+    padding: 10px;
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .workshop-item div, .team-item div, .speaker-item div {
+    justify-content: center;
+    margin-top: 8px;
+  }
+
+  .workshop-item button, .team-item button, .speaker-item button {
+    flex: 1;
+  }
+
+  .form-buttons {
+    flex-direction: column;
+  }
+
+  .form-buttons button {
+    min-width: auto;
+  }
+}
+
+@media (max-width: 480px) {
+  .admin-dashboard {
+    padding: 10px;
+    margin: 10px auto;
+  }
+
+  .dashboard-nav button {
+    padding: 6px 8px;
+    font-size: 11px;
+  }
+
+  .admin-dashboard h2 {
+    font-size: 1.3rem;
+  }
+
+  .admin-dashboard h3 {
+    font-size: 1.1rem;
+  }
+
+  .admin-dashboard h4 {
+    font-size: 1rem;
+  }
 }

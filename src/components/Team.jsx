@@ -44,15 +44,22 @@ function Team() {
                 />
               )}
               <h3>{member.name}</h3>
-              <p><strong>Position:</strong> {member.position}</p>
-              {member.linkedin && (
-                <p>
-                  <strong>LinkedIn:</strong>{' '}
-                  <a href={member.linkedin} target="_blank" rel="noopener noreferrer">
-                    Profile
-                  </a>
-                </p>
+              <p><strong>Role:</strong> {member.role}</p>
+              {member.description && (
+                <p><strong>Description:</strong> {member.description}</p>
               )}
+              <div className="social-links">
+                {member.linkedin && (
+                  <a href={member.linkedin} target="_blank" rel="noopener noreferrer">
+                    LinkedIn
+                  </a>
+                )}
+                {member.github && (
+                  <a href={member.github} target="_blank" rel="noopener noreferrer">
+                    GitHub
+                  </a>
+                )}
+              </div>
             </div>
           ))}
         </div>

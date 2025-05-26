@@ -7,8 +7,11 @@ function Home() {
       <h1>Welcome to <span className="highlight">Summer-XPLORE 2025</span></h1>
       <p className="tagline">Learn, grow, and explore endless possibilities!</p>
       <div className="home-buttons">
-        <Link to="/admin"><button>Admin Dashboard</button></Link>
-        <Link to="/student"><button>Student Dashboard</button></Link>
+       
+        <a href="https://forms.gle/dMcRHSkWXpWaCrDR9" target="_blank" rel="noopener noreferrer">
+          <button>Register</button>
+        </a>
+        <Link to="/student"><button>Explore Workshops</button></Link>
       </div>
     </div>
   );

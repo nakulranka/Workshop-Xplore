@@ -3,15 +3,17 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 100vh;
+  min-height: 80vh;
   text-align: center;
   background-color: #121217;
   color: #fff;
+  padding: 20px;
 }
 
 .home h1 {
-  font-size: 3rem;
+  font-size: 2.5rem;
   margin-bottom: 20px;
+  line-height: 1.2;
 }
 
 .home .highlight {
@@ -19,28 +21,103 @@
 }
 
 .home .tagline {
-  font-size: 1.5rem;
+  font-size: 1.2rem;
   margin-bottom: 40px;
   color: #7a8dbf;
+  line-height: 1.4;
 }
 
 .home-buttons {
   display: flex;
-  gap: 20px;
+  gap: 15px;
+  width: 100%;
+  max-width: 400px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.home-buttons a {
+  flex: 1;
+  min-width: 150px;
 }
 
 .home-buttons button {
   background-color: #3a6df0;
   color: #fff;
   border: none;
-  padding: 15px 30px;
-  font-size: 1.2rem;
+  padding: 15px 20px;
+  font-size: 1.1rem;
   font-weight: bold;
   border-radius: 10px;
   cursor: pointer;
   transition: background-color 0.3s ease;
+  width: 100%;
+  min-height: 50px;
 }
 
 .home-buttons button:hover {
   background-color: #5a8df5;
+}
+
+/* Tablet */
+@media (min-width: 768px) {
+  .home h1 {
+    font-size: 3rem;
+  }
+
+  .home .tagline {
+    font-size: 1.5rem;
+  }
+
+  .home-buttons {
+    gap: 20px;
+  }
+
+  .home-buttons button {
+    font-size: 1.2rem;
+    padding: 15px 30px;
+  }
+}
+
+/* Mobile */
+@media (max-width: 600px) {
+  .home {
+    padding: 15px;
+    min-height: 70vh;
+  }
+
+  .home h1 {
+    font-size: 2rem;
+    margin-bottom: 15px;
+  }
+
+  .home .tagline {
+    font-size: 1rem;
+    margin-bottom: 30px;
+  }
+
+  .home-buttons {
+    flex-direction: column;
+    gap: 12px;
+    max-width: 280px;
+  }
+
+  .home-buttons button {
+    font-size: 1rem;
+    padding: 12px 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .home h1 {
+    font-size: 1.7rem;
+  }
+
+  .home .tagline {
+    font-size: 0.9rem;
+  }
+
+  .home-buttons {
+    max-width: 240px;
+  }
 }

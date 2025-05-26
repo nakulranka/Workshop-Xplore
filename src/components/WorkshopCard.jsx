@@ -1,79 +1,85 @@
+import { useState } from 'react';
+import WorkshopModal from './WorkshopModal';
 import '../styles/WorkshopCard.css';
 
 function WorkshopCard({ workshop, showPastSessions = false }) {
-  const currentTime = new Date('2025-05-26T02:44:00+05:30'); // Current time: 02:44 AM IST, May 26, 2025
-
-  const isLinkExpected = (sessionDate, sessionTime) => {
-    const [hours, minutes] = sessionTime.split(':').map(Number);
-    const sessionDateTime = new Date(sessionDate);
-    sessionDateTime.setHours(hours, minutes);
-    const oneHourBefore = new Date(sessionDateTime.getTime() - 60 * 60 * 1000); // 1 hour before session
-    return currentTime >= oneHourBefore && currentTime <= sessionDateTime;
-  };
-
+  const [showModal, setShowModal] = useState(false);
+  const currentTime = new Date('2025-05-26T02:44:00+05:30');
+  
   const isSessionPast = (sessionDate, sessionTime) => {
-    const [hours, minutes] = sessionTime.split(':').map(Number);
-    const sessionDateTime = new Date(sessionDate);
-    sessionDateTime.setHours(hours, minutes);
-    return currentTime > sessionDateTime;
+    const sessionDateTime = new Date(`${sessionDate}T${sessionTime}`);
+    return sessionDateTime < currentTime;
   };
 
   const formatTime = (time) => {
-    const [hours, minutes] = time.split(':').map(Number);
-    const period = hours >= 12 ? 'PM' : 'AM';
-    const adjustedHours = hours % 12 || 12;
-    return `${adjustedHours}:${minutes.toString().padStart(2, '0')} ${period}`;
+    if (!time) return '';
+    const [hours, minutes] = time.split(':');
+    const hour = parseInt(hours);
+    const ampm = hour >= 12 ? 'PM' : 'AM';
+    const displayHour = hour % 12 || 12;
+    return `${displayHour}:${minutes} ${ampm}`;
+  };
+
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString('en-US', {
+      weekday: 'short',
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric'
+    });
+  };
+
+  const handleCardClick = () => {
+    setShowModal(true);
   };
 
   return (
-    <div className="workshop-card">
-      {workshop.thumbnail && (
-        <img
-          src={workshop.thumbnail}
-          alt={workshop.title}
-          className="workshop-thumbnail"
+    <>
+      <div className="workshop-card" onClick={handleCardClick}>
+        {workshop.thumbnail && (
+          <img
+            src={workshop.thumbnail}
+            alt={workshop.title}
+            className="workshop-thumbnail"
+          />
+        )}
+        <h3>{workshop.title}</h3>
+        <p><strong>Speakers:</strong> {workshop.speakers?.length > 0 ? workshop.speakers.join(', ') : 'TBD'}</p>
+        <p><strong>Prerequisites:</strong> {workshop.prerequisites || 'None'}</p>
+        <h4>Sessions:</h4>
+        {workshop.sessions && workshop.sessions.length > 0 ? (
+          <div className="sessions-container">
+            {workshop.sessions.slice(0, 2).map((session, index) => {
+              const isPast = isSessionPast(session.date, session.time);
+              if (!showPastSessions && isPast) return null;
+              
+              return (
+                <div key={index} className="session-item">
+                  <div className="session-datetime">
+                    <div className="session-date">{formatDate(session.date)}</div>
+                    <div className="session-time">{formatTime(session.time)}</div>
+                  </div>
+                </div>
+              );
+            })}
+            {workshop.sessions.length > 2 && (
+              <p className="more-sessions">+{workshop.sessions.length - 2} more sessions</p>
+            )}
+          </div>
+        ) : (
+          <p>No sessions scheduled.</p>
+        )}
+        <div className="click-hint">Click for more details</div>
+      </div>
+      
+      {showModal && (
+        <WorkshopModal 
+          workshop={workshop} 
+          onClose={() => setShowModal(false)} 
         />
       )}
-      <h3>{workshop.title}</h3>
-      <p><strong>Speakers:</strong> {workshop.speakers?.length > 0 ? workshop.speakers.join(', ') : 'TBD'}</p>
-      <p><strong>Prerequisites:</strong> {workshop.prerequisites || 'None'}</p>
-      <h4>{showPastSessions ? 'Past Sessions:' : 'Upcoming Sessions:'}</h4>
-      {workshop.sessions && workshop.sessions.length > 0 ? (
-        <ul>
-          {workshop.sessions
-            .filter(session => showPastSessions ? isSessionPast(session.date, session.time) : !isSessionPast(session.date, session.time))
-            .map((session, index) => (
-              <li key={index}>
-                <strong>{new Date(session.date).toLocaleDateString()} at {formatTime(session.time)}:</strong>{' '}
-                {showPastSessions ? (
-                  session.youtubePlaylistLink ? (
-                    <a href={session.youtubePlaylistLink} target="_blank" rel="noopener noreferrer">
-                      Watch on YouTube
-                    </a>
-                  ) : (
-                    <span className="pending-link">YouTube link not yet uploaded</span>
-                  )
-                ) : session.teamsLink ? (
-                  <a href={session.teamsLink} target="_blank" rel="noopener noreferrer">
-                    Join on Microsoft Teams
-                  </a>
-                ) : isLinkExpected(session.date, session.time) ? (
-                  <span className="pending-link">Link not yet uploaded</span>
-                ) : (
-                  <span>Link available 1 hour before session</span>
-                )}
-              </li>
-            ))}
-        </ul>
-      ) : (
-        <p>No {showPastSessions ? 'past' : 'upcoming'} sessions.</p>
-      )}
-      {workshop.resourceLink && (
-        <a href={workshop.resourceLink} target="_blank" rel="noopener noreferrer">
-          <button>Resource Link</button>
-        </a>
-      )}
-    </div>
+    </>
   );
 }
 

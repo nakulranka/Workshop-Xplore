@@ -44,15 +44,22 @@ function Speakers() {
                 />
               )}
               <h3>{speaker.name}</h3>
-              <p><strong>Position:</strong> {speaker.position}</p>
-              {speaker.linkedin && (
-                <p>
-                  <strong>LinkedIn:</strong>{' '}
-                  <a href={speaker.linkedin} target="_blank" rel="noopener noreferrer">
-                    Profile
-                  </a>
-                </p>
+              <p><strong>Role:</strong> {speaker.role}</p>
+              {speaker.description && (
+                <p><strong>Description:</strong> {speaker.description}</p>
               )}
+              <div className="social-links">
+                {speaker.linkedin && (
+                  <a href={speaker.linkedin} target="_blank" rel="noopener noreferrer">
+                    LinkedIn
+                  </a>
+                )}
+                {speaker.github && (
+                  <a href={speaker.github} target="_blank" rel="noopener noreferrer">
+                    GitHub
+                  </a>
+                )}
+              </div>
             </div>
           ))}
         </div>

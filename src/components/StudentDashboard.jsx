@@ -3,10 +3,10 @@ import { db } from '../firebase/firebaseConfig';
 import { collection, getDocs } from 'firebase/firestore';
 import { Link, Outlet, useLocation } from 'react-router-dom';
 import Calendar from 'react-calendar';
-import 'react-calendar/dist/Calendar.css';
 import WorkshopCard from './WorkshopCard';
 import Team from './Team';
 import Speakers from './Speakers';
+import 'react-calendar/dist/Calendar.css';
 import '../styles/StudentDashboard.css';
 
 function StudentDashboard() {
@@ -120,32 +120,7 @@ function StudentDashboard() {
             {upcomingWorkshops.length > 0 ? (
               <div className="workshops-list">
                 {upcomingWorkshops.map(workshop => (
-                  <div key={workshop.id} className="workshop-summary">
-                    <h4>{workshop.title}</h4>
-                    {workshop.thumbnail && (
-                      <img
-                        src={workshop.thumbnail}
-                        alt={workshop.title}
-                        className="workshop-thumbnail-small"
-                      />
-                    )}
-                    <p><strong>Speakers:</strong> {workshop.speakers?.length > 0 ? workshop.speakers.join(', ') : 'TBD'}</p>
-                    <p><strong>Prerequisites:</strong> {workshop.prerequisites || 'None'}</p>
-                    <p><strong>Upcoming Sessions:</strong></p>
-                    {workshop.sessions && workshop.sessions.length > 0 ? (
-                      <ul>
-                        {workshop.sessions
-                          .filter(session => isSessionUpcoming(session))
-                          .map((session, index) => (
-                            <li key={index}>
-                              {new Date(session.date).toLocaleDateString()} at {formatTime(session.time)}
-                            </li>
-                          ))}
-                      </ul>
-                    ) : (
-                      <p>No upcoming sessions.</p>
-                    )}
-                  </div>
+                  <WorkshopCard key={workshop.id} workshop={workshop} showPastSessions={false} />
                 ))}
               </div>
             ) : (
@@ -169,8 +144,8 @@ function StudentDashboard() {
         )}
         {!showTeam && !showSpeakers && activeTab === 'scheduled' && (
           <div className="calendar-section">
-            <h3>Scheduled Workshops</h3>
             <div className="calendar-container">
+              <h3>Calendar</h3>
               <Calendar
                 onChange={setSelectedDate}
                 value={selectedDate}
@@ -189,13 +164,15 @@ function StudentDashboard() {
               />
             </div>
             <div className="workshops-container">
-              <h4>Upcoming Workshops on {selectedDate.toLocaleDateString()}</h4>
+              <h4>Workshops on {selectedDate.toLocaleDateString()}</h4>
               {workshopsOnDate.length > 0 ? (
-                workshopsOnDate.map(workshop => (
-                  <WorkshopCard key={workshop.id} workshop={workshop} showPastSessions={false} />
-                ))
+                <div className="workshops-list">
+                  {workshopsOnDate.map(workshop => (
+                    <WorkshopCard key={workshop.id} workshop={workshop} showPastSessions={false} />
+                  ))}
+                </div>
               ) : (
-                <p>No upcoming workshops scheduled on this date.</p>
+                <p>No workshops scheduled on this date.</p>
               )}
             </div>
           </div>
