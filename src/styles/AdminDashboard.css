@@ -328,3 +328,13 @@
     font-size: 1rem;
   }
 }
+
+/* Custom styles for smaller and better tick boxes in admin dashboard sessions */
+.admin-dashboard input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  margin-right: 6px;
+  vertical-align: middle;
+  cursor: pointer;
+  accent-color: #3a6df0; /* Optional: color to match theme */
+}

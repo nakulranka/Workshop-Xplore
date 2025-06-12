@@ -6,13 +6,18 @@ function WorkshopCard({ workshop, showPastSessions = false }) {
   const [showModal, setShowModal] = useState(false);
   const currentTime = new Date('2025-05-26T02:44:00+05:30');
   
-  const isSessionPast = (sessionDate, sessionTime) => {
+  const isSessionPast = (sessionDate, sessionTime, isDateTBA, isTimeTBA) => {
+    // If date or time is TBA, consider it as future session
+    if (isDateTBA || isTimeTBA) return false;
+    
     const sessionDateTime = new Date(`${sessionDate}T${sessionTime}`);
     return sessionDateTime < currentTime;
   };
 
-  const formatTime = (time) => {
+  const formatTime = (time, isTimeTBA) => {
+    if (isTimeTBA) return 'TBA';
     if (!time) return '';
+    
     const [hours, minutes] = time.split(':');
     const hour = parseInt(hours);
     const ampm = hour >= 12 ? 'PM' : 'AM';
@@ -20,7 +25,10 @@ function WorkshopCard({ workshop, showPastSessions = false }) {
     return `${displayHour}:${minutes} ${ampm}`;
   };
 
-  const formatDate = (dateString) => {
+  const formatDate = (dateString, isDateTBA) => {
+    if (isDateTBA) return 'To Be Announced';
+    if (!dateString) return '';
+    
     const date = new Date(dateString);
     return date.toLocaleDateString('en-US', {
       weekday: 'short',
@@ -51,14 +59,18 @@ function WorkshopCard({ workshop, showPastSessions = false }) {
         {workshop.sessions && workshop.sessions.length > 0 ? (
           <div className="sessions-container">
             {workshop.sessions.slice(0, 2).map((session, index) => {
-              const isPast = isSessionPast(session.date, session.time);
+              const isPast = isSessionPast(session.date, session.time, session.isDateTBA, session.isTimeTBA);
               if (!showPastSessions && isPast) return null;
               
               return (
                 <div key={index} className="session-item">
                   <div className="session-datetime">
-                    <div className="session-date">{formatDate(session.date)}</div>
-                    <div className="session-time">{formatTime(session.time)}</div>
+                    <div className="session-date">
+                      {formatDate(session.date, session.isDateTBA)}
+                    </div>
+                    <div className={`session-time ${session.isTimeTBA ? 'tba-time' : ''}`}>
+                      {formatTime(session.time, session.isTimeTBA)}
+                    </div>
                   </div>
                 </div>
               );

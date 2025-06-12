@@ -3,8 +3,10 @@ import '../styles/WorkshopModal.css';
 function WorkshopModal({ workshop, onClose }) {
   if (!workshop) return null;
 
-  const formatTime = (time) => {
+  const formatTime = (time, isTimeTBA) => {
+    if (isTimeTBA) return 'To Be Announced';
     if (!time) return '';
+    
     const [hours, minutes] = time.split(':');
     const hour = parseInt(hours);
     const ampm = hour >= 12 ? 'PM' : 'AM';
@@ -12,7 +14,10 @@ function WorkshopModal({ workshop, onClose }) {
     return `${displayHour}:${minutes} ${ampm}`;
   };
 
-  const formatDate = (dateString) => {
+  const formatDate = (dateString, isDateTBA) => {
+    if (isDateTBA) return 'To Be Announced';
+    if (!dateString) return '';
+    
     const date = new Date(dateString);
     return date.toLocaleDateString('en-US', {
       weekday: 'long',
@@ -71,8 +76,12 @@ function WorkshopModal({ workshop, onClose }) {
                 {workshop.sessions.map((session, index) => (
                   <div key={index} className="session-detail">
                     <div className="session-info">
-                      <div className="session-date-modal">{formatDate(session.date)}</div>
-                      <div className="session-time-modal">{formatTime(session.time)}</div>
+                      <div className={`session-date-modal ${session.isDateTBA ? 'tba-date' : ''}`}>
+                        {formatDate(session.date, session.isDateTBA)}
+                      </div>
+                      <div className={`session-time-modal ${session.isTimeTBA ? 'tba-time' : ''}`}>
+                        {formatTime(session.time, session.isTimeTBA)}
+                      </div>
                     </div>
                     {session.youtubePlaylistLink && (
                       <a href={session.youtubePlaylistLink} target="_blank" rel="noopener noreferrer" className="recording-link-modal">

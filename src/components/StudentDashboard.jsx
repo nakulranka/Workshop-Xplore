@@ -18,7 +18,8 @@ function StudentDashboard() {
   const [showSpeakers, setShowSpeakers] = useState(false);
   const location = useLocation();
 
-  const currentTime = new Date('2025-05-26T03:07:00+05:30'); // Current time: 03:07 AM IST, May 26, 2025
+  // Use current time - automatically updates
+  const currentTime = new Date();
 
   const fetchWorkshops = async () => {
     try {
@@ -33,30 +34,74 @@ function StudentDashboard() {
 
   useEffect(() => {
     fetchWorkshops();
-    const interval = setInterval(fetchWorkshops, 5 * 60 * 1000); // Refresh every 5 minutes
+    // Refresh every 5 minutes to keep workshops current
+    const interval = setInterval(fetchWorkshops, 5 * 60 * 1000);
     return () => clearInterval(interval);
   }, []);
 
   const isSessionPast = (session) => {
-    const [hours, minutes] = session.time.split(':').map(Number);
-    const sessionDateTime = new Date(session.date);
-    sessionDateTime.setHours(hours, minutes);
-    return currentTime > sessionDateTime;
+    // If date or time is TBA, consider it as future session
+    if (session.isDateTBA || session.isTimeTBA) return false;
+    
+    // Handle missing date or time
+    if (!session.date || !session.time) return false;
+    
+    try {
+      const [hours, minutes] = session.time.split(':').map(Number);
+      const sessionDateTime = new Date(session.date);
+      sessionDateTime.setHours(hours, minutes);
+      return currentTime > sessionDateTime;
+    } catch (error) {
+      console.warn('Error parsing session date/time:', session, error);
+      return false;
+    }
   };
 
   const isSessionUpcoming = (session) => {
-    const [hours, minutes] = session.time.split(':').map(Number);
-    const sessionDateTime = new Date(session.date);
-    sessionDateTime.setHours(hours, minutes);
-    return currentTime <= sessionDateTime;
+    // If date or time is TBA, consider it as upcoming session
+    if (session.isDateTBA || session.isTimeTBA) return true;
+    
+    // Handle missing date or time
+    if (!session.date || !session.time) return false;
+    
+    try {
+      const [hours, minutes] = session.time.split(':').map(Number);
+      const sessionDateTime = new Date(session.date);
+      sessionDateTime.setHours(hours, minutes);
+      return currentTime <= sessionDateTime;
+    } catch (error) {
+      console.warn('Error parsing session date/time:', session, error);
+      return true; // Default to upcoming if parsing fails
+    }
   };
 
   const hasPastSessions = (workshop) => {
-    return workshop.sessions?.some(session => isSessionPast(session));
+    return workshop.sessions?.some(session => isSessionPast(session)) || false;
   };
 
   const hasUpcomingSessions = (workshop) => {
-    return workshop.sessions?.some(session => isSessionUpcoming(session));
+    return workshop.sessions?.some(session => isSessionUpcoming(session)) || false;
+  };
+
+  const getSessionDateTime = (session) => {
+    // Return a very future date for TBA sessions so they appear last in upcoming
+    if (session.isDateTBA || session.isTimeTBA) {
+      return new Date('2099-12-31');
+    }
+    
+    if (!session.date || !session.time) {
+      return new Date('2099-12-31');
+    }
+    
+    try {
+      const [hours, minutes] = session.time.split(':').map(Number);
+      const sessionDateTime = new Date(session.date);
+      sessionDateTime.setHours(hours, minutes);
+      return sessionDateTime;
+    } catch (error) {
+      console.warn('Error parsing session date/time:', session, error);
+      return new Date('2099-12-31');
+    }
   };
 
   const sortWorkshopsByDateTime = (workshopsToSort) => {
